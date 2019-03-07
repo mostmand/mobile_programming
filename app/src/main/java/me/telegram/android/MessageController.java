@@ -26,12 +26,18 @@ public class MessageController {
         NotificationCenter.getInstance().dataLoaded();
     }
 
+    private void setMessages(ArrayList<Integer> messages){
+        this.messages = new ArrayList<>(messages);
+        NotificationCenter.getInstance().dataLoaded();
+    }
+
     public void fetch(boolean fromCache) {
         if (fromCache) {
+
             Thread storage = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    ArrayList<Integer> res = StorageManager.getInstance(context).load();
+                    ArrayList<Integer> res = StorageManager.getInstance(context).load(getLastLoaded());
                     addMessages(res);
                 }
             });
@@ -40,12 +46,20 @@ public class MessageController {
             Thread cloud = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    ArrayList<Integer> res = ConnectionManager.getInstance().load(10);
+
+                    ArrayList<Integer> res = ConnectionManager.getInstance().load(getLastLoaded());
                     StorageManager.getInstance(context).save(res.get(res.size() - 1));
                     addMessages(res);
                 }
             });
             cloud.start();
         }
+    }
+
+    private int getLastLoaded(){
+        if (this.messages.size() == 0)
+            return 0;
+        else
+            return this.messages.get(this.messages.size() - 1);
     }
 }
