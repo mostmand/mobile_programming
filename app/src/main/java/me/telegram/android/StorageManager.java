@@ -19,12 +19,12 @@ public class StorageManager {
         return file;
     }
 
-    public ArrayList<Integer> load() {
+    public ArrayList<Integer> load(int lastLoaded) {
         ArrayList<Integer> res = new ArrayList<>();
-        int lastLoaded = readFile();
+        int lastWritten = readFile();
 
-        if (lastLoaded > 0) {
-            for (int i = lastLoaded - 9; i <= lastLoaded; i++) {
+        if (lastWritten > 0 && lastLoaded < lastWritten) {
+            for (int i = lastLoaded + 1; i <= lastLoaded + 10; i++) {
                 res.add(i);
             }
         }
