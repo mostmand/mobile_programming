@@ -15,6 +15,14 @@ public class StorageManager {
 
     int file = 0;
 
+    public int getFile() {
+        return file;
+    }
+
+    public void setFile(int file) {
+        this.file = file;
+    }
+
     public ArrayList<Integer> load() {
         ArrayList<Integer> res = new ArrayList<>();
         int lastLoaded = readFile();

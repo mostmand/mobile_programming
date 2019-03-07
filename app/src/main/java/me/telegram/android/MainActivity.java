@@ -3,6 +3,7 @@ package me.telegram.android;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,5 +43,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+
+        outState.putInt("file", StorageManager.getInstance().getFile());
+    }
+
+
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+
+        StorageManager.getInstance().setFile(savedInstanceState.getInt("file"));
     }
 }
