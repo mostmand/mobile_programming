@@ -69,11 +69,17 @@ public class MainActivity extends AppCompatActivity implements Observer {
     public void update(Observable o, Object arg) {
         final LinearLayout list = (LinearLayout) findViewById(R.id.list);
 
-        for (Integer message: MessageController.getInstance().messages) {
-            TextView textView = new TextView(MainActivity.this);
-            textView.setText(message + "");
-            list.addView(textView);
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (Integer message: MessageController.getInstance().messages) {
+                    TextView textView = new TextView(MainActivity.this);
+                    textView.setText(message + "");
+                    list.addView(textView);
+                }
+            }
+        });
+
     }
 
 
