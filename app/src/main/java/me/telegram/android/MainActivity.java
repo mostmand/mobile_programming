@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
 
-        StorageManager.getInstance().setFile(savedInstanceState.getInt("file"));
+        if (savedInstanceState != null)
+            StorageManager.getInstance().setFile(savedInstanceState.getInt("file"));
     }
 }
