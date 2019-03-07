@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                list.removeAllViews();
                 for (Integer message: MessageController.getInstance(MainActivity.this).messages) {
                     TextView textView = new TextView(MainActivity.this);
                     textView.setText(message + "");
