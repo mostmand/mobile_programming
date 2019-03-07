@@ -13,16 +13,33 @@ public class MessageController {
         return instance;
     }
 
-    private ArrayList<Integer> messages = new ArrayList<>();
+    public ArrayList<Integer> messages = new ArrayList<>();
 
-    public ArrayList<Integer> fetch(boolean fromCache) {
-        ArrayList<Integer> res;
+    private void addMessages(ArrayList<Integer> messages){
+        this.messages.addAll(messages);
+        NotificationCenter.getInstance().dataLoaded();
+    }
+
+    public void fetch(boolean fromCache) {
         if (fromCache) {
-            res=StorageManager.getInstance().load();
+            Thread storage = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayList<Integer> res = StorageManager.getInstance().load();
+                    addMessages(res);
+                }
+            });
+            storage.start();
         } else {
-            res= ConnectionManager.getInstance().load(10);
-            StorageManager.getInstance().save(res.get(9));
+            Thread cloud = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayList<Integer> res = ConnectionManager.getInstance().load(10);
+                    StorageManager.getInstance().save(res.get(res.size() - 1));
+                    addMessages(res);
+                }
+            });
+            cloud.start();
         }
-        return res;
     }
 }

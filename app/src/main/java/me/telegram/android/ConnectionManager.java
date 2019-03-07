@@ -18,6 +18,7 @@ public class ConnectionManager {
         for (int i = lastLoaded + 1; i <= lastLoaded + 10; i++) {
             res.add(i);
         }
+
         return res;
     }
 
