@@ -1,15 +1,21 @@
 package me.telegram.android;
 
+import android.content.Context;
+
+import java.net.ContentHandler;
 import java.util.ArrayList;
 
 public class MessageController {
 
     private static final MessageController instance = new MessageController();
 
+    private Context context;
+
     private MessageController() {
     }
 
-    public static MessageController getInstance() {
+    public static MessageController getInstance(Context context) {
+        instance.context = context;
         return instance;
     }
 
@@ -25,7 +31,7 @@ public class MessageController {
             Thread storage = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    ArrayList<Integer> res = StorageManager.getInstance().load();
+                    ArrayList<Integer> res = StorageManager.getInstance(context).load();
                     addMessages(res);
                 }
             });
@@ -35,7 +41,7 @@ public class MessageController {
                 @Override
                 public void run() {
                     ArrayList<Integer> res = ConnectionManager.getInstance().load(10);
-                    StorageManager.getInstance().save(res.get(res.size() - 1));
+                    StorageManager.getInstance(context).save(res.get(res.size() - 1));
                     addMessages(res);
                 }
             });

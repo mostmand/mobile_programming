@@ -31,14 +31,14 @@ public class MainActivity extends AppCompatActivity implements Observer {
         findViewById(R.id.refreshBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MessageController.getInstance().fetch(true);
+                MessageController.getInstance(MainActivity.this).fetch(true);
             }
         });
 
         findViewById(R.id.getBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MessageController.getInstance().fetch(false);
+                MessageController.getInstance(MainActivity.this).fetch(false);
             }
         });
     }
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
 
-        outState.putInt("file", StorageManager.getInstance().getFile());
+        outState.putInt("file", StorageManager.getInstance(this).getIdx());
     }
 
     @Override
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
 
         if (savedInstanceState != null)
-            StorageManager.getInstance().save(savedInstanceState.getInt("file"));
+            StorageManager.getInstance(this).save(savedInstanceState.getInt("file"));
     }
 
     @Override
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                for (Integer message: MessageController.getInstance().messages) {
+                for (Integer message: MessageController.getInstance(MainActivity.this).messages) {
                     TextView textView = new TextView(MainActivity.this);
                     textView.setText(message + "");
                     list.addView(textView);
