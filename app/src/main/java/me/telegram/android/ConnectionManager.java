@@ -1,6 +1,15 @@
 package me.telegram.android;
 
+import android.util.Log;
+
+import java.io.IOException;
 import java.util.ArrayList;
+
+import me.telegram.android.network.RetrofitAPI;
+import me.telegram.android.network.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConnectionManager {
 
@@ -13,18 +22,18 @@ public class ConnectionManager {
         return instance;
     }
 
-    public ArrayList<Integer> load(int lastLoaded) {
+    public ArrayList<Post> load(int lastLoaded) {
+
+        RetrofitAPI client = RetrofitClient.getClient().create(RetrofitAPI.class);
+        Call<ArrayList<Post>> call = client.getPosts();
+        ArrayList<Post> posts =new ArrayList<>();
         try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
+           posts = call.execute().body();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        ArrayList<Integer> res = new ArrayList<>();
-        for (int i = lastLoaded + 1; i <= lastLoaded + 10; i++) {
-            res.add(i);
-        }
+        return posts;
 
-        return res;
     }
 
 }

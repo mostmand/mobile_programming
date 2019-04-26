@@ -1,21 +1,23 @@
 package me.telegram.android;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Observable;
 import java.util.Observer;
 
 public class MainActivity extends AppCompatActivity implements Observer {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         NotificationCenter.getInstance().getDataLoadedEvent().addObserver(this);
 
@@ -27,59 +29,45 @@ public class MainActivity extends AppCompatActivity implements Observer {
                 list.removeAllViews();
             }
         });
-
-        findViewById(R.id.refreshBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MessageController.getInstance(MainActivity.this).fetchPosts(true);
-            }
-        });
-
-        findViewById(R.id.getBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MessageController.getInstance(MainActivity.this).fetchPosts(false);
-            }
-        });
+        MessageController.getInstance(MainActivity.this).fetchPosts();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         NotificationCenter.getInstance().getDataLoadedEvent().deleteObserver(this);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-
-        outState.putInt("file", StorageManager.getInstance(this).getIdx());
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onRestoreInstanceState(savedInstanceState, persistentState);
-
-        if (savedInstanceState != null)
-            StorageManager.getInstance(this).save(savedInstanceState.getInt("file"));
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+//        super.onSaveInstanceState(outState, outPersistentState);
+//
+//        outState.putInt("file", StorageManager.getInstance(this).getIdx());
+//    }
+//
+//    @Override
+//    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+//        super.onRestoreInstanceState(savedInstanceState, persistentState);
+//
+//        if (savedInstanceState != null)
+//            StorageManager.getInstance(this).save(savedInstanceState.getInt("file"));
+//    }
 
     @Override
     public void update(Observable o, Object arg) {
         final LinearLayout list = (LinearLayout) findViewById(R.id.list);
 
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                list.removeAllViews();
-//                for (Integer message: MessageController.getInstance(MainActivity.this).posts) {
-//                    TextView textView = new TextView(MainActivity.this);
-//                    textView.setText(message + "");
-//                    list.addView(textView);
-//                }
-//            }
-//        });
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                list.removeAllViews();
+                for (Post post: MessageController.getInstance(MainActivity.this).posts) {
+                    TextView textView = new TextView(MainActivity.this);
+                    textView.setText(post.getBody());
+                    list.addView(textView);
+                }
+            }
+        });
 
     }
 

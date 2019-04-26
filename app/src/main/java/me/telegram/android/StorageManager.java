@@ -21,60 +21,12 @@ import java.util.Arrays;
 public class StorageManager {
     private Context context;
     private static final StorageManager instance = new StorageManager();
-    private static File file;
     private StorageManager() {
     }
 
     public static StorageManager getInstance(Context context) {
-        if (file == null){
-            file  = new File(context.getFilesDir(),"file.txt");
-        }
         instance.context = context;
         return instance;
-    }
-
-    FileOutputStream tempFile;
-
-    private static void InitFile(Context context){
-        try {
-            FileOutputStream file = context.openFileOutput("tmp.txt", Context.MODE_PRIVATE);
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(file));
-            writer.write(0);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int getIdx() {
-        int idx = 0;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            int index;
-            String line;
-            while ((line = reader.readLine()) != null) {
-                idx = Integer.parseInt(line);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return idx;
-    }
-
-    public ArrayList<Integer> load(int lastLoaded) {
-        ArrayList<Integer> res = new ArrayList<>();
-        int lastWritten = getIdx();
-
-        if (lastWritten > 0 && lastLoaded < lastWritten) {
-            for (int i = lastLoaded + 1; i <= lastLoaded + 10; i++) {
-                res.add(i);
-            }
-        }
-
-        return res;
     }
 
     public ArrayList<Post> loadPosts() {
@@ -98,20 +50,7 @@ public class StorageManager {
         return res;
     }
 
-    public void save(int number) {
-        try {
-            FileWriter writer = new FileWriter(file);
-            writer.append("" + number);
-            writer.flush();
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int SavePosts(ArrayList<Post> posts){
+    public int savePosts(ArrayList<Post> posts){
         DaoSession daoSession = ((App)this.context.getApplicationContext()).getDaoSession();
         PostDao postDao = daoSession.getPostDao();
         try {
@@ -127,7 +66,7 @@ public class StorageManager {
         }
     }
 
-    public int SaveComments(ArrayList<Comment> comments){
+    public int saveComments(ArrayList<Comment> comments){
         DaoSession daoSession = ((App)this.context.getApplicationContext()).getDaoSession();
         CommentDao commentDao = daoSession.getCommentDao();
         try {

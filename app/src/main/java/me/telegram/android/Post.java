@@ -8,49 +8,49 @@ import org.greenrobot.greendao.annotation.Generated;
 
 
 @Entity(indexes = {
-        @Index(value= "Id", unique = true)
+        @Index(value = "id", unique = true)
 })
 
 public class Post {
     @Id
-    private Long Id;
+    private Long id;
 
     @NotNull
-    private Long UserId;
-    private String Title;
-    private String Body;
-@Generated(hash = 953099827)
-public Post(Long Id, @NotNull Long UserId, String Title, String Body) {
-    this.Id = Id;
-    this.UserId = UserId;
-    this.Title = Title;
-    this.Body = Body;
+    private Long userId;
+    private String title;
+    private String body;
+@Generated(hash = 392168960)
+public Post(Long id, @NotNull Long userId, String title, String body) {
+    this.id = id;
+    this.userId = userId;
+    this.title = title;
+    this.body = body;
 }
 @Generated(hash = 1782702645)
 public Post() {
 }
 public Long getId() {
-    return this.Id;
+    return this.id;
 }
-public void setId(Long Id) {
-    this.Id = Id;
+public void setId(Long id) {
+    this.id = id;
 }
 public Long getUserId() {
-    return this.UserId;
+    return this.userId;
 }
-public void setUserId(Long UserId) {
-    this.UserId = UserId;
+public void setUserId(Long userId) {
+    this.userId = userId;
 }
 public String getTitle() {
-    return this.Title;
+    return this.title;
 }
-public void setTitle(String Title) {
-    this.Title = Title;
+public void setTitle(String title) {
+    this.title = title;
 }
 public String getBody() {
-    return this.Body;
+    return this.body;
 }
-public void setBody(String Body) {
-    this.Body = Body;
+public void setBody(String body) {
+    this.body = body;
 }
 }
