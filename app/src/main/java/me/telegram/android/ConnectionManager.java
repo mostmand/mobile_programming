@@ -14,10 +14,16 @@ public class ConnectionManager {
     }
 
     public ArrayList<Integer> load(int lastLoaded) {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ArrayList<Integer> res = new ArrayList<>();
         for (int i = lastLoaded + 1; i <= lastLoaded + 10; i++) {
             res.add(i);
         }
+
         return res;
     }
 
