@@ -9,8 +9,7 @@ public class App extends Application {
     public void onCreate(){
         super.onCreate();
         mDaoSession = new DaoMaster(
-                new DbOpenHelper(this, "greendao_demo.db").getWritableDb()).newSession();
-
+                new DaoMaster.DevOpenHelper(this, "telegram.db").getWritableDb()).newSession();
 
 
     }

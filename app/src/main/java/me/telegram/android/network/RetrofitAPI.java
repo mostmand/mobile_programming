@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.telegram.android.Comment;
+import me.telegram.android.Post;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -11,10 +13,10 @@ import retrofit2.http.Path;
 public interface RetrofitAPI {
 
     @GET("/posts/")
-    Call<ArrayList<HashMap<Object,Object>>> getPosts();
+    Call<ArrayList<Post>> getPosts();
 
     @GET("/posts/{code}/comments/")
-    Call<ArrayList<HashMap<Object,Object>>> getComments(@Path("id") String id);
+    Call<ArrayList<Comment>> getComments(@Path("id") String id);
 
 
 
