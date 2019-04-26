@@ -65,14 +65,14 @@ public class MainActivity extends AppCompatActivity implements Observer {
         findViewById(R.id.refreshBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MessageController.getInstance(MainActivity.this).fetch(true);
+                MessageController.getInstance(MainActivity.this).fetchPosts(true);
             }
         });
 
         findViewById(R.id.getBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MessageController.getInstance(MainActivity.this).fetch(false);
+                MessageController.getInstance(MainActivity.this).fetchPosts(false);
             }
         });
     }
@@ -103,17 +103,17 @@ public class MainActivity extends AppCompatActivity implements Observer {
     public void update(Observable o, Object arg) {
         final LinearLayout list = (LinearLayout) findViewById(R.id.list);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                list.removeAllViews();
-                for (Integer message : MessageController.getInstance(MainActivity.this).messages) {
-                    TextView textView = new TextView(MainActivity.this);
-                    textView.setText(message + "");
-                    list.addView(textView);
-                }
-            }
-        });
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                list.removeAllViews();
+//                for (Integer message: MessageController.getInstance(MainActivity.this).posts) {
+//                    TextView textView = new TextView(MainActivity.this);
+//                    textView.setText(message + "");
+//                    list.addView(textView);
+//                }
+//            }
+//        });
 
     }
 
