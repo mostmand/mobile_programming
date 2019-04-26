@@ -1,5 +1,6 @@
 package me.telegram.android;
 
+import java.util.Calendar;
 import android.content.Context;
 
 import java.net.ContentHandler;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 public class MessageController {
 
     private static final MessageController instance = new MessageController();
+
+    private long lastUpdate;
 
     private Context context;
 
@@ -19,47 +22,35 @@ public class MessageController {
         return instance;
     }
 
-    public ArrayList<Integer> messages = new ArrayList<>();
+    public ArrayList<Post> posts = new ArrayList<>();
 
-    private void addMessages(ArrayList<Integer> messages){
-        this.messages.addAll(messages);
+    public ArrayList<Comment> comments = new ArrayList<>();
+
+    private void addPosts(ArrayList<Post> messages){
+        this.posts.addAll(messages);
         NotificationCenter.getInstance().dataLoaded();
     }
 
-    private void setMessages(ArrayList<Integer> messages){
-        this.messages = new ArrayList<>(messages);
+    private void setMessages(ArrayList<Post> posts){
+        this.posts = new ArrayList<>(posts);
         NotificationCenter.getInstance().dataLoaded();
     }
 
-    public void fetch(boolean fromCache) {
+
+
+
+    public void fetchPosts(boolean fromCache) {
         if (fromCache) {
 
             Thread storage = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    ArrayList<Integer> res = StorageManager.getInstance(context).load(getLastLoaded());
-                    addMessages(res);
+                    ArrayList<Post> res = StorageManager.getInstance(context).loadPosts();
+                    addPosts(res);
                 }
             });
             storage.start();
-        } else {
-            Thread cloud = new Thread(new Runnable() {
-                @Override
-                public void run() {
-
-                    ArrayList<Integer> res = ConnectionManager.getInstance().load(getLastLoaded());
-                    StorageManager.getInstance(context).save(res.get(res.size() - 1));
-                    addMessages(res);
-                }
-            });
-            cloud.start();
         }
-    }
 
-    private int getLastLoaded(){
-        if (this.messages.size() == 0)
-            return 0;
-        else
-            return this.messages.get(this.messages.size() - 1);
     }
 }
