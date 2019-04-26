@@ -2,6 +2,8 @@ package me.telegram.android;
 
 import android.app.Application;
 
+import org.greenrobot.greendao.database.Database;
+
 public class App extends Application {
     private DaoSession mDaoSession;
 
@@ -9,8 +11,7 @@ public class App extends Application {
     public void onCreate(){
         super.onCreate();
         mDaoSession = new DaoMaster(
-                new DbOpenHelper(this, "greendao_demo.db").getWritableDb()).newSession();
-
+                new DaoMaster.DevOpenHelper(this, "greendao_app.db").getWritableDb()).newSession();
 
 
     }
