@@ -15,7 +15,7 @@ public class ConnectionManager {
 
     public ArrayList<Integer> load(int lastLoaded) {
         try {
-            Thread.sleep(100);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
