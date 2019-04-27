@@ -4,6 +4,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -51,11 +53,17 @@ public class CommentsActivity extends AppCompatActivity implements Observer {
     }
 
     private void updateListOfComments(LinearLayout list) {
+        ArrayList<Comment> comments = MessageController.getInstance(CommentsActivity.this).comments;
+
+        TextView postDetails = findViewById(R.id.postDetails);
+        postDetails.append(", " + comments.size() + " Comments");
+
         list.removeAllViews();
         for (Comment comment: MessageController.getInstance(CommentsActivity.this).comments) {
-            TextView textView = new TextView(CommentsActivity.this);
-            textView.setText(comment.getBody());
-            list.addView(textView);
+            PostView commentView = new PostView(CommentsActivity.this);
+            commentView.setTitle(comment.getName());
+            commentView.setBody(comment.getBody());
+            list.addView(commentView);
         }
     }
 

@@ -27,7 +27,6 @@ public class ConnectionManager {
             e.printStackTrace();
         }
         return posts;
-
     }
 
     public ArrayList<Comment> loadComments(Long postId) {

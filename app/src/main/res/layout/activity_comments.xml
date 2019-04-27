@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:layout_weight="10"
             android:text="Post "
-            android:textAlignment="center"
+            android:gravity="center"
             android:textColor="@color/colorPrimary"/>
 
         <ImageButton

@@ -62,10 +62,12 @@ public class MainActivity extends AppCompatActivity implements Observer {
             public void run() {
                 grid.removeAllViews();
                 for (final Post post : MessageController.getInstance(MainActivity.this).posts) {
-                    TextView textView = new TextView(MainActivity.this);
-                    textView.setText(post.getBody());
+                    PostView postView = new PostView(MainActivity.this);
 
-                    textView.setOnClickListener(new View.OnClickListener() {
+                    postView.setTitle(post.getTitle());
+                    postView.setBody(post.getBody());
+
+                    postView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent commentsIntent = new Intent(v.getContext(), CommentsActivity.class);
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
                         }
                     });
 
-                    grid.addView(textView);
+                    grid.addView(postView);
                 }
             }
         });
@@ -88,10 +90,11 @@ public class MainActivity extends AppCompatActivity implements Observer {
             public void run() {
                 list.removeAllViews();
                 for (final Post post : MessageController.getInstance(MainActivity.this).posts) {
-                    TextView textView = new TextView(MainActivity.this);
-                    textView.setText(post.getBody());
+                    PostView postView = new PostView(MainActivity.this);
+                    postView.setTitle(post.getTitle());
+                    postView.setBody(post.getBody());
 
-                    textView.setOnClickListener(new View.OnClickListener() {
+                    postView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent commentsIntent = new Intent(v.getContext(), CommentsActivity.class);
@@ -100,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
                         }
                     });
 
-                    list.addView(textView);
+                    list.addView(postView);
                 }
             }
         });

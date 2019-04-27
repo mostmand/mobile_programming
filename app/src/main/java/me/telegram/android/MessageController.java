@@ -38,7 +38,7 @@ public class MessageController {
 
     public void fetchPosts() {
         boolean fromCache = isFromCache();
-        if (fromCache) {
+        if (false) {
             Thread storage = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -69,7 +69,7 @@ public class MessageController {
     }
 
     public void fetchComments(final Long postId) {
-        if (true) {
+        if (false) {
             Thread storage = new Thread(new Runnable() {
                 @Override
                 public void run() {
