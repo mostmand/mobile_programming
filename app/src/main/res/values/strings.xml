@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Telegram</string>
+    <string name="current_time">current_time</string>
 </resources>
