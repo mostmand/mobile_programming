@@ -33,27 +33,13 @@
             android:contentDescription="@string/descr_overflow_button"
             android:src="@drawable/ic_action_more_vert" />
     </LinearLayout>
-    <ScrollView
-        android:id="@+id/list_scroll"
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/grid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-    </ScrollView>
-    <ScrollView
-        android:id="@+id/grid_scroll"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <GridLayout
-            android:id="@+id/grid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="1"
-            android:stretchMode="columnWidth"
-            android:orientation="vertical"/>
-    </ScrollView>
+        android:layout_height="match_parent"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/product_item_layout" />
+
 </LinearLayout>

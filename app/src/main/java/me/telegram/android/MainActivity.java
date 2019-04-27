@@ -1,29 +1,45 @@
 package me.telegram.android;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class MainActivity extends AppCompatActivity implements Observer {
+public class MainActivity extends AppCompatActivity implements Observer, OnItemClickListener {
     private boolean isListView;
+    private RecyclerView recyclerView;
+    private PostRecyclerViewAdapter mAdapter;
+    private LinearLayoutManager linearLayoutManager;
+    private GridLayoutManager gridLayoutManager;
+    private ArrayList<Post> posts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         isListView = true;
-
         NotificationCenter.getInstance().getPostsLoadedEvent().addObserver(this);
 
         setContentView(R.layout.activity_main);
+
+        recyclerView = findViewById(R.id.grid);
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                gridLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        mAdapter = new PostRecyclerViewAdapter(getApplicationContext(), posts, this);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         findViewById(R.id.changeViewBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements Observer {
         });
 
         MessageController.getInstance(MainActivity.this).fetchPosts();
+
+
     }
 
     @Override
@@ -50,100 +68,36 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (isListView) {
-            updateListView();
-        }
-        else{
-            updateGridView();
-        }
-    }
-
-    private void updateGridView() {
-        final GridLayout grid = findViewById(R.id.grid);
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                grid.removeAllViews();
-                ArrayList<Post> posts = MessageController.getInstance(MainActivity.this).posts;
-                int total = posts.size();
-                int column = 2;
-                int row = total / column;
-                grid.setColumnCount(column);
-                grid.setRowCount(row + 1);
-                int c = 0, r = 0;
-                for(int i = 0; i < total; i++, c++) {
-                    if(c == column) {
-                        c = 0;
-                        r++;
-                    }
-
-                    final Post post = posts.get(i);
-
-                    PostView postView = new PostView(MainActivity.this);
-                    postView.setTitle(post.getTitle());
-                    postView.setBody(post.getBody());
-
-                    postView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent commentsIntent = new Intent(v.getContext(), CommentsActivity.class);
-                            commentsIntent.putExtra("post_id", post.getId());
-                            startActivity(commentsIntent);
-                        }
-                    });
-
-                    GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-                    param.height = GridLayout.LayoutParams.WRAP_CONTENT;
-                    param.width = GridLayout.LayoutParams.WRAP_CONTENT;
-                    param.setGravity(Gravity.CENTER);
-                    param.columnSpec = GridLayout.spec(c);
-                    param.rowSpec = GridLayout.spec(r);
-                    postView.setLayoutParams(param);
-                    grid.addView(postView);
-                }
+                posts.clear();
+                posts.addAll(MessageController.getInstance(MainActivity.this).posts);
+                mAdapter.notifyDataSetChanged();
             }
         });
+
     }
 
-    private void updateListView() {
-        final LinearLayout list = findViewById(R.id.list);
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                list.removeAllViews();
-                for (final Post post : MessageController.getInstance(MainActivity.this).posts) {
-                    PostView postView = new PostView(MainActivity.this);
-                    postView.setTitle(post.getTitle());
-                    postView.setBody(post.getBody());
-
-                    postView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent commentsIntent = new Intent(v.getContext(), CommentsActivity.class);
-                            commentsIntent.putExtra("post_id", post.getId());
-                            startActivity(commentsIntent);
-                        }
-                    });
-
-                    list.addView(postView);
-                }
-            }
-        });
-    }
-
-    private void toggleView(){
+    private void toggleView() {
         this.isListView = !isListView;
-        if (isListView){
-            updateListView();
-            findViewById(R.id.grid_scroll).setVisibility(View.GONE);
-            findViewById(R.id.list_scroll).setVisibility(View.VISIBLE);
-        }
-        else{
-            updateGridView();
-            findViewById(R.id.list_scroll).setVisibility(View.GONE);
-            findViewById(R.id.grid_scroll).setVisibility(View.VISIBLE);
+        if (isListView) {
+            recyclerView.setLayoutManager(linearLayoutManager);
+        } else {
+            recyclerView.setLayoutManager(gridLayoutManager);
         }
     }
+
+    @Override
+    public void onItemClicked(long id) {
+
+        Intent commentsIntent = new Intent(getApplicationContext(), CommentsActivity.class);
+        commentsIntent.putExtra("post_id",id);
+        startActivity(commentsIntent);
+
+    }
+}
+
+interface OnItemClickListener {
+    public void onItemClicked(long id);
 }
