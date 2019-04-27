@@ -55,7 +55,7 @@ public class MessageController {
                     StorageManager.getInstance(context).savePosts(res);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putLong(context.getString(R.string.current_time), System.currentTimeMillis());
-                    editor.commit();
+                    editor.apply();
                     setPosts(res);
                 }
             });
@@ -65,7 +65,7 @@ public class MessageController {
 
     private void setComments(ArrayList<Comment> comments) {
         this.comments = new ArrayList<>(comments);
-        NotificationCenter.getInstance().postsLoaded();
+        NotificationCenter.getInstance().commentsLoaded();
     }
 
     public void fetchComments(final Long postId) {

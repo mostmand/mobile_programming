@@ -20,13 +20,20 @@ public class MainActivity extends AppCompatActivity implements Observer {
         NotificationCenter.getInstance().getPostsLoadedEvent().addObserver(this);
 
         setContentView(R.layout.activity_main);
+
+        findViewById(R.id.changeViewBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.this.toggleView();
+            }
+        });
+
         findViewById(R.id.teamMembersBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TeamMembersDialog.show(v.getContext());
             }
         });
-
 
         MessageController.getInstance(MainActivity.this).fetchPosts();
     }
@@ -99,5 +106,17 @@ public class MainActivity extends AppCompatActivity implements Observer {
         });
     }
 
-
+    private void toggleView(){
+        this.isListView = !isListView;
+        if (isListView){
+            updateListView();
+            findViewById(R.id.grid_scroll).setVisibility(View.GONE);
+            findViewById(R.id.list_scroll).setVisibility(View.VISIBLE);
+        }
+        else{
+            updateGridView();
+            findViewById(R.id.list_scroll).setVisibility(View.GONE);
+            findViewById(R.id.grid_scroll).setVisibility(View.VISIBLE);
+        }
+    }
 }

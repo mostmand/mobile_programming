@@ -1,5 +1,4 @@
 package me.telegram.android;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;

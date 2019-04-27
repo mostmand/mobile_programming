@@ -34,7 +34,7 @@ public class ConnectionManager {
 
         RetrofitAPI client = RetrofitClient.getClient().create(RetrofitAPI.class);
         Call<ArrayList<Comment>> call = client.getComments(postId);
-        ArrayList<Comment> comments =new ArrayList<>();
+        ArrayList<Comment> comments = new ArrayList<>();
         try {
             comments = call.execute().body();
         } catch (IOException e) {

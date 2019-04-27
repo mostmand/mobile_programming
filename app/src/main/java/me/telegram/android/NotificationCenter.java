@@ -16,6 +16,10 @@ public class NotificationCenter {
         postsLoadedEvent.occur();
     }
 
+    public void commentsLoaded(){
+        commentsLoadedEvent.occur();
+    }
+
     private MyEvent postsLoadedEvent;
     private MyEvent commentsLoadedEvent;
 
