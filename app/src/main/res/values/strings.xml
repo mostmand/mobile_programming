@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Telegram</string>
+    <string name="current_time">current_time</string>
     <string name="descr_overflow_button">TeamMembers</string>
     <string name="teamMembers">سید امیر حسین حمیدیان\nسجاد واحدی فرد\nمحمد حسین مستمند</string>
     <string name="temMembersDialogTitle">اعضای تیم</string>

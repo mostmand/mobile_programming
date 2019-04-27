@@ -3,8 +3,11 @@ import android.content.Context;
 import java.util.ArrayList;
 
 public class StorageManager {
+
     private Context context;
     private static final StorageManager instance = new StorageManager();
+
+
     private StorageManager() {
     }
 
