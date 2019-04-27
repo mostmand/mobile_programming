@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
         NotificationCenter.getInstance().getDataLoadedEvent().addObserver(this);
 
         setContentView(R.layout.activity_main);
-        final LinearLayout list = (LinearLayout) findViewById(R.id.list);
         findViewById(R.id.teamMembersBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,24 +30,9 @@ public class MainActivity extends AppCompatActivity implements Observer {
         NotificationCenter.getInstance().getDataLoadedEvent().deleteObserver(this);
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-//        super.onSaveInstanceState(outState, outPersistentState);
-//
-//        outState.putInt("file", StorageManager.getInstance(this).getIdx());
-//    }
-//
-//    @Override
-//    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
-//        super.onRestoreInstanceState(savedInstanceState, persistentState);
-//
-//        if (savedInstanceState != null)
-//            StorageManager.getInstance(this).save(savedInstanceState.getInt("file"));
-//    }
-
     @Override
     public void update(Observable o, Object arg) {
-        final LinearLayout list = (LinearLayout) findViewById(R.id.list);
+        final LinearLayout list = findViewById(R.id.list);
 
         runOnUiThread(new Runnable() {
             @Override
