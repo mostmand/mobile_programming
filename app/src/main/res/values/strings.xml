@@ -3,4 +3,5 @@
     <string name="descr_overflow_button">TeamMembers</string>
     <string name="teamMembers">سید امیر حسین حمیدیان\nسجاد واحدی فرد\nمحمد حسین مستمند</string>
     <string name="temMembersDialogTitle">اعضای تیم</string>
+    <string name="postDetails">Post %1$d</string>
 </resources>
