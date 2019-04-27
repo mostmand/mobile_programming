@@ -17,16 +17,14 @@ public class MainActivity extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         NotificationCenter.getInstance().getDataLoadedEvent().addObserver(this);
 
         setContentView(R.layout.activity_main);
         final LinearLayout list = (LinearLayout) findViewById(R.id.list);
-        findViewById(R.id.clearBtn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.teamMembersBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.removeAllViews();
+                TeamMembersDialog.show(v.getContext());
             }
         });
         MessageController.getInstance(MainActivity.this).fetchPosts();

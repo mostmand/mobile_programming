@@ -1,10 +1,5 @@
 package me.telegram.android;
-
-import java.util.Calendar;
-
 import android.content.Context;
-
-import java.net.ContentHandler;
 import java.util.ArrayList;
 
 public class MessageController {
@@ -46,13 +41,40 @@ public class MessageController {
             Thread network = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    ArrayList<Post> res = ConnectionManager.getInstance().load(1);
+                    ArrayList<Post> res = ConnectionManager.getInstance().loadPosts();
                     StorageManager.getInstance(context).savePosts(res);
                     setPosts(res);
                 }
             });
             network.start();
         }
+    }
 
+    private void setComments(ArrayList<Comment> comments) {
+        this.comments = new ArrayList<>(comments);
+        NotificationCenter.getInstance().dataLoaded();
+    }
+
+    public void fetchComments(final Long postId) {
+        if (true) {
+            Thread storage = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayList<Comment> res = StorageManager.getInstance(context).loadComments(postId);
+                    setComments(res);
+                }
+            });
+            storage.start();
+        } else {
+            Thread network = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayList<Comment> res = ConnectionManager.getInstance().loadComments(postId);
+                    StorageManager.getInstance(context).saveComments(res);
+                    setComments(res);
+                }
+            });
+            network.start();
+        }
     }
 }

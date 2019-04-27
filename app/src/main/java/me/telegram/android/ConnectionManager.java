@@ -22,7 +22,7 @@ public class ConnectionManager {
         return instance;
     }
 
-    public ArrayList<Post> load(int lastLoaded) {
+    public ArrayList<Post> loadPosts() {
 
         RetrofitAPI client = RetrofitClient.getClient().create(RetrofitAPI.class);
         Call<ArrayList<Post>> call = client.getPosts();
@@ -34,6 +34,19 @@ public class ConnectionManager {
         }
         return posts;
 
+    }
+
+    public ArrayList<Comment> loadComments(Long postId) {
+
+        RetrofitAPI client = RetrofitClient.getClient().create(RetrofitAPI.class);
+        Call<ArrayList<Comment>> call = client.getComments(postId);
+        ArrayList<Comment> comments =new ArrayList<>();
+        try {
+            comments = call.execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return comments;
     }
 
 }
