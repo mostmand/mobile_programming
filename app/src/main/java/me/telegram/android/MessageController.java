@@ -24,6 +24,9 @@ public class MessageController {
     public static MessageController getInstance(Context context) {
         instance.context = context;
         sharedPref = context.getSharedPreferences("tmpShared", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong(context.getString(R.string.current_time), System.currentTimeMillis());
+        editor.commit();
         return instance;
     }
 
@@ -69,7 +72,8 @@ public class MessageController {
     }
 
     public void fetchComments(final Long postId) {
-        if (true) {
+        boolean fromCache = isFromCache();
+        if (fromCache) {
             Thread storage = new Thread(new Runnable() {
                 @Override
                 public void run() {
