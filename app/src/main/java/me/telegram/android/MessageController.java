@@ -36,7 +36,7 @@ public class MessageController {
 
     private void setPosts(ArrayList<Post> posts) {
         this.posts = new ArrayList<>(posts);
-        NotificationCenter.getInstance().dataLoaded();
+        NotificationCenter.getInstance().postsLoaded();
     }
 
     public void fetchPosts() {
@@ -68,7 +68,7 @@ public class MessageController {
 
     private void setComments(ArrayList<Comment> comments) {
         this.comments = new ArrayList<>(comments);
-        NotificationCenter.getInstance().dataLoaded();
+        NotificationCenter.getInstance().commentsLoaded();
     }
 
     public void fetchComments(final Long postId) {

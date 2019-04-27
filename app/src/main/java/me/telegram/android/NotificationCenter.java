@@ -4,20 +4,28 @@ public class NotificationCenter {
     private static final NotificationCenter instance = new NotificationCenter();
 
     private NotificationCenter(){
-        this.dataLoadedEvent = new MyEvent();
+        this.postsLoadedEvent = new MyEvent();
+        this.commentsLoadedEvent = new MyEvent();
     }
 
     public static NotificationCenter getInstance(){
         return instance;
     }
 
-    public void dataLoaded(){
-        dataLoadedEvent.occur();
+    public void postsLoaded(){
+        postsLoadedEvent.occur();
     }
 
-    private MyEvent dataLoadedEvent;
-
-    public MyEvent getDataLoadedEvent() {
-        return dataLoadedEvent;
+    public void commentsLoaded(){
+        commentsLoadedEvent.occur();
     }
+
+    private MyEvent postsLoadedEvent;
+    private MyEvent commentsLoadedEvent;
+
+    public MyEvent getPostsLoadedEvent() {
+        return postsLoadedEvent;
+    }
+
+    public MyEvent getCommentsLoadedEvent() { return commentsLoadedEvent; }
 }

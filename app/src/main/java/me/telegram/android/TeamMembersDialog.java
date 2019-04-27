@@ -1,8 +1,6 @@
 package me.telegram.android;
-
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 
 public class TeamMembersDialog {
     public static void show(Context context){

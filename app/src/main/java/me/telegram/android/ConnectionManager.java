@@ -27,14 +27,13 @@ public class ConnectionManager {
             e.printStackTrace();
         }
         return posts;
-
     }
 
     public ArrayList<Comment> loadComments(Long postId) {
 
         RetrofitAPI client = RetrofitClient.getClient().create(RetrofitAPI.class);
         Call<ArrayList<Comment>> call = client.getComments(postId);
-        ArrayList<Comment> comments =new ArrayList<>();
+        ArrayList<Comment> comments = new ArrayList<>();
         try {
             comments = call.execute().body();
         } catch (IOException e) {
