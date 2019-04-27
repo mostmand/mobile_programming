@@ -6,6 +6,8 @@ import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Generated;
 
+import androidx.annotation.Nullable;
+
 
 @Entity(indexes = {
         @Index(value = "id", unique = true)
@@ -17,14 +19,21 @@ public class Post {
 
     @NotNull
     private Long userId;
+    @NotNull
     private String title;
+    @NotNull
     private String body;
-@Generated(hash = 392168960)
-public Post(Long id, @NotNull Long userId, String title, String body) {
+
+    @Nullable
+    private Long commentUpdated;
+@Generated(hash = 17810051)
+public Post(Long id, @NotNull Long userId, @NotNull String title,
+        @NotNull String body, Long commentUpdated) {
     this.id = id;
     this.userId = userId;
     this.title = title;
     this.body = body;
+    this.commentUpdated = commentUpdated;
 }
 @Generated(hash = 1782702645)
 public Post() {
@@ -52,5 +61,11 @@ public String getBody() {
 }
 public void setBody(String body) {
     this.body = body;
+}
+public Long getCommentUpdated() {
+    return this.commentUpdated;
+}
+public void setCommentUpdated(Long commentUpdated) {
+    this.commentUpdated = commentUpdated;
 }
 }
