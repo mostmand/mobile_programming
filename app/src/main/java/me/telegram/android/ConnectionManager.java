@@ -1,15 +1,9 @@
 package me.telegram.android;
-
-import android.util.Log;
-
 import java.io.IOException;
 import java.util.ArrayList;
-
 import me.telegram.android.network.RetrofitAPI;
 import me.telegram.android.network.RetrofitClient;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ConnectionManager {
 
