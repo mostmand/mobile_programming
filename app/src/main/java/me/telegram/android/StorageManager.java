@@ -1,5 +1,4 @@
 package me.telegram.android;
-
 import android.content.Context;
 import java.util.ArrayList;
 

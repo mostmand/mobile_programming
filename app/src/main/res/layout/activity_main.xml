@@ -10,26 +10,28 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/clearBtn"
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="clear" />
+            android:layout_weight="5"
+            android:text="Project 2"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"/>
 
         <Button
-            android:id="@+id/refreshBtn"
+            android:id="@+id/changeViewBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="refresh" />
+            android:layout_weight="5"
+            android:text="Change View" />
 
-        <Button
-            android:id="@+id/getBtn"
+        <ImageButton
+            android:id="@+id/teamMembersBtn"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="get" />
+            android:contentDescription="@string/descr_overflow_button"
+            android:src="@drawable/ic_action_more_vert" />
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
