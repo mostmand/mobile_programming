@@ -83,7 +83,7 @@ public class MessageController {
                 @Override
                 public void run() {
                     ArrayList<Comment> res = ConnectionManager.getInstance().loadComments(postId);
-                    StorageManager.getInstance(context).saveComments(res);
+                    StorageManager.getInstance(context).saveComments(res, postId);
                     setComments(res);
                 }
             });
@@ -103,14 +103,16 @@ public class MessageController {
 
 
     private boolean shouldCommentsLoadFromCache(Long postId) {
-        return false;
-//        long lastUpdated = StorageManager.getInstance(context).loadPost(postId).getCommentUpdated()||0;
-//
-//        boolean isNetworkNotConnected = !isNetworkConnected();
-//        boolean isDataValid = (System.currentTimeMillis() - lastUpdated < 5 * 60 * 1000L);
-//        if (!isDataValid && isNetworkNotConnected)
-//            Toast.makeText(this.context, "couldn't load comments:(", Toast.LENGTH_LONG).show();
-//        return isDataValid || isNetworkNotConnected;
+        Post post = StorageManager.getInstance(context).loadPost(postId);
+        long lastUpdated = 0;
+        if (post != null && post.getCommentUpdated() != null)
+            lastUpdated = post.getCommentUpdated();
+
+        boolean isNetworkNotConnected = !isNetworkConnected();
+        boolean isDataValid = (System.currentTimeMillis() - lastUpdated < 5 * 60 * 1000L);
+        if (!isDataValid && isNetworkNotConnected)
+            Toast.makeText(this.context, "couldn't load comments:(", Toast.LENGTH_LONG).show();
+        return isDataValid || isNetworkNotConnected;
     }
 
     private boolean isNetworkConnected() {

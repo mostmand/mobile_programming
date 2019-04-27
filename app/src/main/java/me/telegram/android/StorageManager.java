@@ -33,7 +33,7 @@ public class StorageManager {
     public Post loadPost(Long postId) {
         DaoSession daoSession = ((App)this.context.getApplicationContext()).getDaoSession();
         PostDao postDao = daoSession.getPostDao();
-        return postDao.queryBuilder().where(CommentDao.Properties.PostId.eq(postId)).unique();
+        return postDao.queryBuilder().where(PostDao.Properties.Id.eq(postId)).list().get(0);
     }
 
     public ArrayList<Comment> loadComments(Long postId) {
