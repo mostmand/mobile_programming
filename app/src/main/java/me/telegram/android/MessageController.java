@@ -1,11 +1,10 @@
 package me.telegram.android;
 
-import java.util.Calendar;
-
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.widget.Toast;
 
-import java.net.ContentHandler;
 import java.util.ArrayList;
 
 public class MessageController {
@@ -24,9 +23,6 @@ public class MessageController {
     public static MessageController getInstance(Context context) {
         instance.context = context;
         sharedPref = context.getSharedPreferences("tmpShared", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putLong(context.getString(R.string.current_time), System.currentTimeMillis());
-        editor.commit();
         return instance;
     }
 
@@ -40,7 +36,7 @@ public class MessageController {
     }
 
     public void fetchPosts() {
-        boolean fromCache = isFromCache();
+        boolean fromCache = shouldPostsLoadFromCache();
         if (fromCache) {
             Thread storage = new Thread(new Runnable() {
                 @Override
@@ -72,7 +68,7 @@ public class MessageController {
     }
 
     public void fetchComments(final Long postId) {
-        boolean fromCache = isFromCache();
+        boolean fromCache = shouldCommentsLoadFromCache(postId);
         if (fromCache) {
             Thread storage = new Thread(new Runnable() {
                 @Override
@@ -96,10 +92,31 @@ public class MessageController {
 
     }
 
-    private boolean isFromCache() {
-        long lastUpdated = sharedPref.getLong(context.getString(R.string.current_time), System.currentTimeMillis());
-        if (System.currentTimeMillis() - lastUpdated > 5 * 60 * 1000L)
-            return false;
-        return true;
+    private boolean shouldPostsLoadFromCache() {
+        long lastUpdated = sharedPref.getLong(context.getString(R.string.current_time), 0);
+        boolean isNetworkNotConnected = !isNetworkConnected();
+        boolean isDataValid = (System.currentTimeMillis() - lastUpdated < 5 * 60 * 1000L);
+        if (!isDataValid && isNetworkNotConnected)
+            Toast.makeText(this.context, "couldn't load posts:(", Toast.LENGTH_LONG).show();
+        return isDataValid || isNetworkNotConnected;
     }
+
+
+    private boolean shouldCommentsLoadFromCache(Long postId) {
+        return false;
+//        long lastUpdated = StorageManager.getInstance(context).loadPost(postId).getCommentUpdated()||0;
+//
+//        boolean isNetworkNotConnected = !isNetworkConnected();
+//        boolean isDataValid = (System.currentTimeMillis() - lastUpdated < 5 * 60 * 1000L);
+//        if (!isDataValid && isNetworkNotConnected)
+//            Toast.makeText(this.context, "couldn't load comments:(", Toast.LENGTH_LONG).show();
+//        return isDataValid || isNetworkNotConnected;
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) this.context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm != null && cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+
+    }
+
 }

@@ -26,6 +26,12 @@ public class StorageManager {
         return res;
     }
 
+    public Post loadPost(Long postId) {
+        DaoSession daoSession = ((App)this.context.getApplicationContext()).getDaoSession();
+        PostDao postDao = daoSession.getPostDao();
+        return postDao.queryBuilder().where(CommentDao.Properties.PostId.eq(postId)).unique();
+    }
+
     public ArrayList<Comment> loadComments(Long postId) {
         DaoSession daoSession = ((App)this.context.getApplicationContext()).getDaoSession();
         CommentDao commentDao = daoSession.getCommentDao();
